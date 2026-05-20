@@ -1,0 +1,67 @@
+{% extends 'jobportal/base.html' %}
+{% block content %}
+
+<section class="min-h-screen pt-32 pb-20 px-6 bg-[#020617] relative overflow-hidden">
+    <div class="absolute top-0 right-0 w-[500px] h-[500px] bg-blue-600/5 rounded-full blur-[120px] -z-0"></div>
+
+    <div class="max-w-3xl mx-auto relative z-10">
+        
+        {% if success %}
+        <div class="bg-blue-500/10 border border-blue-500/20 text-blue-400 px-6 py-4 rounded-2xl mb-10 text-center font-black uppercase tracking-widest text-xs animate-pulse">
+            🎉 Application for {{ job.title }} submitted successfully!
+        </div>
+        {% endif %}
+
+        <div class="bg-white/5 backdrop-blur-2xl border border-white/10 p-10 md:p-14 rounded-[3rem] shadow-2xl">
+            <div class="mb-12">
+                <h2 class="text-blue-500 font-black text-[10px] uppercase tracking-[0.4em] mb-4">Application Portal</h2>
+                <h1 class="text-4xl font-black text-white tracking-tighter uppercase leading-none">Apply for <br> <span class="text-blue-500">{{ job.title }}</span></h1>
+                <p class="text-slate-500 text-xs font-bold uppercase tracking-widest mt-4 italic">Confirm your professional credentials below</p>
+            </div>
+
+            <form method="POST" enctype="multipart/form-data" class="space-y-8">
+                {% csrf_token %}
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div class="space-y-2">
+                        <label class="text-[10px] font-black text-slate-500 uppercase tracking-widest ml-2">Full Name</label>
+                        <input type="text" name="full_name" value="{{ user_name }}" required 
+                               class="w-full bg-white/5 border border-white/10 rounded-2xl px-6 py-4 text-white focus:outline-none focus:border-blue-500/50 transition-all font-medium">
+                    </div>
+                    <div class="space-y-2">
+                        <label class="text-[10px] font-black text-slate-500 uppercase tracking-widest ml-2">Email Address</label>
+                        <input type="email" name="email" value="{{ user_email }}" required 
+                               class="w-full bg-white/5 border border-white/10 rounded-2xl px-6 py-4 text-white focus:outline-none focus:border-blue-500/50 transition-all font-medium">
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div class="space-y-2">
+                        <label class="text-[10px] font-black text-slate-500 uppercase tracking-widest ml-2">Phone Number</label>
+                        <input type="text" name="phone" placeholder="+91 XXXX XXXXX" required 
+                               class="w-full bg-white/5 border border-white/10 rounded-2xl px-6 py-4 text-white focus:outline-none focus:border-blue-500/50 transition-all font-medium">
+                    </div>
+                    <div class="space-y-2">
+                        <label class="text-[10px] font-black text-slate-500 uppercase tracking-widest ml-2">Highest Qualification</label>
+                        <input type="text" name="qualification" placeholder="e.g. B.Tech, MBA" required 
+                               class="w-full bg-white/5 border border-white/10 rounded-2xl px-6 py-4 text-white focus:outline-none focus:border-blue-500/50 transition-all font-medium">
+                    </div>
+                </div>
+
+                <div class="space-y-2">
+                    <label class="text-[10px] font-black text-slate-500 uppercase tracking-widest ml-2">Upload Resume (PDF ONLY)</label>
+                    <div class="relative group">
+                        <input type="file" name="resume" accept=".pdf" required 
+                               class="w-full bg-white/5 border border-white/10 rounded-2xl px-6 py-4 text-slate-400 file:bg-blue-600 file:text-white file:border-0 file:px-4 file:py-1 file:rounded-lg file:text-[10px] file:font-black file:uppercase file:mr-4 hover:file:bg-blue-700 cursor-pointer">
+                    </div>
+                </div>
+
+                <button type="submit" class="w-full bg-blue-600 text-white py-5 rounded-2xl font-black text-xs uppercase tracking-[0.2em] shadow-xl shadow-blue-900/40 hover:bg-white hover:text-blue-900 transition-all transform hover:-translate-y-1">
+                    Submit Professional Application
+                </button>
+            </form>
+        </div>
+    </div>
+</section>
+
+{% endblock %}

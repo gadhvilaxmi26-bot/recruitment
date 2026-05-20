@@ -1,0 +1,81 @@
+{% extends 'jobportal/base.html' %}
+{% block content %}
+
+<section class="bg-slate-900 py-16 px-6 text-white">
+    <div class="max-w-7xl mx-auto text-center">
+        <h1 class="text-4xl md:text-5xl font-black mb-4">Partner with Calorine Enterprise</h1>
+        <p class="text-slate-400 text-lg max-w-2xl mx-auto">
+            Hiring made simple. Tell us your requirements and we will find the perfect match for your organization.
+        </p>
+    </div>
+</section>
+
+<section class="py-20 px-6 max-w-7xl mx-auto">
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-12">
+        
+        <div class="lg:col-span-1 space-y-8">
+            <div class="bg-blue-600 p-8 rounded-[2rem] text-white">
+                <h3 class="text-2xl font-bold mb-6">Why Hire Through Us?</h3>
+                <ul class="space-y-4">
+                    <li class="flex items-start gap-3">
+                        <span class="bg-blue-500 rounded-full p-1 text-xs">✔</span>
+                        <p class="text-sm font-medium text-blue-50">Access to 10,000+ Verified Candidates</p>
+                    </li>
+                    <li class="flex items-start gap-3">
+                        <span class="bg-blue-500 rounded-full p-1 text-xs">✔</span>
+                        <p class="text-sm font-medium text-blue-50">Industry Specific Experts (Mechanical, IT, HR)</p>
+                    </li>
+                    <li class="flex items-start gap-3">
+                        <span class="bg-blue-500 rounded-full p-1 text-xs">✔</span>
+                        <p class="text-sm font-medium text-blue-50">Fast Turnaround Time (48 Hours Hiring)</p>
+                    </li>
+                </ul>
+            </div>
+            
+            <div class="bg-white p-8 rounded-[2rem] border border-slate-100 shadow-sm text-center">
+                <p class="text-slate-500 text-sm mb-4 font-bold">NEED HELP IMMEDIATELY?</p>
+                <a href="tel:+91XXXXXXXXXX" class="text-2xl font-black text-slate-900 hover:text-blue-600 transition">+91 XXXXX XXXXX</a>
+            </div>
+        </div>
+
+        <div class="lg:col-span-2 bg-white p-8 md:p-12 rounded-[2.5rem] shadow-xl border border-slate-100">
+            <h3 class="text-2xl font-black text-slate-900 mb-8">Post Your Requirement</h3>
+            
+            <form action="#" method="POST" class="space-y-6">
+                {% csrf_token %}
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <label class="block text-sm font-bold text-slate-700 mb-2">Company Name</label>
+                        <input type="text" placeholder="Calorine Pvt Ltd" class="w-full p-4 bg-slate-50 border border-slate-200 rounded-xl outline-none focus:border-blue-500 transition">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-bold text-slate-700 mb-2">HR/Contact Person Name</label>
+                        <input type="text" placeholder="Full Name" class="w-full p-4 bg-slate-50 border border-slate-200 rounded-xl outline-none focus:border-blue-500 transition">
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <label class="block text-sm font-bold text-slate-700 mb-2">Work Email</label>
+                        <input type="email" placeholder="hr@company.com" class="w-full p-4 bg-slate-50 border border-slate-200 rounded-xl outline-none focus:border-blue-500 transition">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-bold text-slate-700 mb-2">Contact Number</label>
+                        <input type="text" placeholder="Mobile / Landline" class="w-full p-4 bg-slate-50 border border-slate-200 rounded-xl outline-none focus:border-blue-500 transition">
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-sm font-bold text-slate-700 mb-2">What are you looking for?</label>
+                    <textarea rows="4" placeholder="Example: We need 2 VMC Operators and 1 Accountant for our Rajkot factory..." class="w-full p-4 bg-slate-50 border border-slate-200 rounded-xl outline-none focus:border-blue-500 transition"></textarea>
+                </div>
+
+                <button type="submit" class="w-full bg-slate-900 text-white py-5 rounded-2xl font-black text-lg hover:bg-blue-600 shadow-xl transition transform hover:-translate-y-1">
+                    Send Recruitment Inquiry
+                </button>
+            </form>
+        </div>
+    </div>
+</section>
+
+{% endblock %}

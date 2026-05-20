@@ -1,0 +1,73 @@
+{% extends 'jobportal/base.html' %}
+{% block content %}
+
+<section class="min-h-screen pt-32 pb-20 px-6 bg-[#020617] relative">
+    <div class="max-w-7xl mx-auto relative z-10">
+        
+        <div class="text-center mb-20">
+            <h2 class="text-emerald-500 font-black text-[10px] uppercase tracking-[0.4em] mb-4">Concierge Support</h2>
+            <h1 class="text-6xl font-black text-white tracking-tighter uppercase leading-none">Get In <span class="text-emerald-500">Touch</span></h1>
+            <p class="text-slate-500 text-sm font-bold uppercase tracking-widest mt-6">Strategic solutions for your recruitment needs</p>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-10">
+            <div class="space-y-6">
+                <div class="bg-white/5 border border-white/10 p-10 rounded-[2.5rem] backdrop-blur-xl">
+                    <h3 class="text-white font-black text-xs uppercase tracking-widest mb-10 border-b border-white/10 pb-4 text-emerald-500">Global HQ</h3>
+                    
+                    <div class="space-y-10">
+                        <div class="flex items-start gap-6">
+                            <span class="text-2xl opacity-50">📍</span>
+                            <div>
+                                <p class="text-[10px] font-black text-slate-500 uppercase tracking-widest mb-1">Location</p>
+                                <p class="text-white font-bold text-sm">Rajkot, Gujarat, India</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start gap-6">
+                            <span class="text-2xl opacity-50">📞</span>
+                            <div>
+                                <p class="text-[10px] font-black text-slate-500 uppercase tracking-widest mb-1">Direct Line</p>
+                                <p class="text-white font-bold text-sm">+91 97XXX XXXXX</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <a href="https://wa.me/91XXXXXXXXXX" class="flex items-center justify-between bg-emerald-600 p-8 rounded-[2.5rem] group hover:bg-emerald-500 transition-all shadow-xl shadow-emerald-950">
+                    <div>
+                        <p class="text-emerald-100 text-[10px] font-black uppercase tracking-widest">Priority Chat</p>
+                        <p class="text-white font-black text-xl italic uppercase">WhatsApp HR</p>
+                    </div>
+                    <div class="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center text-white group-hover:scale-110 transition-transform">
+                        →
+                    </div>
+                </a>
+            </div>
+
+            <div class="lg:col-span-2 bg-white/5 border border-white/10 p-10 md:p-14 rounded-[3.5rem] backdrop-blur-xl">
+                <form action="#" method="POST" class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    {% csrf_token %}
+                    <div class="space-y-2">
+                        <label class="text-[10px] font-black text-slate-500 uppercase tracking-widest ml-2">Company</label>
+                        <input type="text" class="w-full bg-white/5 border border-white/10 rounded-2xl px-6 py-4 text-white focus:outline-none focus:border-emerald-500/50">
+                    </div>
+                    <div class="space-y-2">
+                        <label class="text-[10px] font-black text-slate-500 uppercase tracking-widest ml-2">Contact Person</label>
+                        <input type="text" class="w-full bg-white/5 border border-white/10 rounded-2xl px-6 py-4 text-white focus:outline-none focus:border-emerald-500/50">
+                    </div>
+                    <div class="md:col-span-2 space-y-2">
+                        <label class="text-[10px] font-black text-slate-500 uppercase tracking-widest ml-2">Requirement Details</label>
+                        <textarea rows="4" class="w-full bg-white/5 border border-white/10 rounded-2xl px-6 py-4 text-white focus:outline-none focus:border-emerald-500/50" placeholder="Tell us about your hiring needs..."></textarea>
+                    </div>
+                    <div class="md:col-span-2 pt-4">
+                        <button type="submit" class="w-full bg-white text-slate-900 py-5 rounded-2xl font-black text-xs uppercase tracking-[0.2em] hover:bg-emerald-600 hover:text-white transition-all shadow-2xl">
+                            Request Callback
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock %}

@@ -1,0 +1,55 @@
+{% extends 'jobportal/base.html' %}
+{% block content %}
+
+<section class="min-h-screen flex items-center justify-center bg-[#020617] py-28 px-6 relative overflow-hidden">
+    <div class="absolute bottom-0 right-0 w-[400px] h-[400px] bg-amber-600/5 rounded-full blur-[100px] -z-0"></div>
+
+    <div class="w-full max-w-2xl relative z-10">
+        <div class="bg-white/5 backdrop-blur-2xl border border-white/10 p-12 rounded-[3.5rem] shadow-2xl">
+            <div class="mb-12">
+                <h2 class="text-4xl font-black text-white tracking-tighter uppercase leading-none">Create your <br> <span class="text-amber-500 text-5xl">Account</span></h2>
+                <p class="text-slate-500 text-[10px] font-bold uppercase tracking-[0.3em] mt-4">Join Gujarat's most trusted recruitment network</p>
+            </div>
+
+            <form method="POST" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                {% csrf_token %}
+                <div class="md:col-span-2 flex bg-white/5 p-1 rounded-2xl border border-white/10 mb-4">
+                    <button type="button" class="flex-1 py-3 rounded-xl bg-amber-500 text-black text-[10px] font-black uppercase tracking-widest shadow-lg">Job Seeker</button>
+                    <button type="button" class="flex-1 py-3 rounded-xl text-slate-400 text-[10px] font-black uppercase tracking-widest hover:text-white transition-all">Employer</button>
+                </div>
+
+                <div class="space-y-2">
+                    <label class="text-[10px] font-black text-slate-500 uppercase tracking-widest ml-2">Full Name</label>
+                    <input type="text" class="w-full bg-white/5 border border-white/10 rounded-2xl px-6 py-4 text-white focus:outline-none focus:border-amber-500/50">
+                </div>
+
+                <div class="space-y-2">
+                    <label class="text-[10px] font-black text-slate-500 uppercase tracking-widest ml-2">Email Address</label>
+                    <input type="email" class="w-full bg-white/5 border border-white/10 rounded-2xl px-6 py-4 text-white focus:outline-none focus:border-amber-500/50">
+                </div>
+
+                <div class="space-y-2">
+                    <label class="text-[10px] font-black text-slate-500 uppercase tracking-widest ml-2">Create Password</label>
+                    <input type="password" class="w-full bg-white/5 border border-white/10 rounded-2xl px-6 py-4 text-white focus:outline-none focus:border-amber-500/50">
+                </div>
+
+                <div class="space-y-2">
+                    <label class="text-[10px] font-black text-slate-500 uppercase tracking-widest ml-2">Confirm Password</label>
+                    <input type="password" class="w-full bg-white/5 border border-white/10 rounded-2xl px-6 py-4 text-white focus:outline-none focus:border-amber-500/50">
+                </div>
+
+                <div class="md:col-span-2 pt-6">
+                    <button type="submit" class="w-full bg-amber-500 text-black py-5 rounded-2xl font-black text-xs uppercase tracking-[0.2em] hover:bg-white transition-all shadow-2xl shadow-amber-900/20">
+                        Register Account
+                    </button>
+                </div>
+            </form>
+
+            <p class="mt-10 text-center text-slate-500 text-[10px] font-bold uppercase tracking-widest">
+                Already a member? <a href="{% url 'login' %}" class="text-amber-500 hover:text-white transition-colors underline underline-offset-4">Login here</a>
+            </p>
+        </div>
+    </div>
+</section>
+
+{% endblock %}
