@@ -1,54 +1,167 @@
 {% extends 'jobportal/base.html' %}
 {% block content %}
 
-<section class="min-h-screen pt-32 pb-20 px-6 bg-[#020617]">
-    <div class="max-w-7xl mx-auto">
-        
+<section class="min-h-screen pt-32 pb-20 px-6 bg-[#020617] relative overflow-hidden">
+
+    <!-- Background Glow -->
+    <div class="absolute top-0 left-1/2 -translate-x-1/2 w-[900px] h-[400px] bg-amber-500/10 rounded-full blur-[120px] -z-0"></div>
+
+    <div class="max-w-7xl mx-auto relative z-10">
+
+        <!-- Heading -->
         <div class="mb-16 text-center">
-            <h2 class="text-amber-500 font-black text-[10px] uppercase tracking-[0.4em] mb-4">Marketplace</h2>
-            <h1 class="text-5xl font-black text-white tracking-tighter uppercase">Available <span class="text-amber-500">Opportunities</span></h1>
+
+            <h2 class="text-amber-500 font-black text-[10px] uppercase tracking-[0.4em] mb-4">
+                Marketplace
+            </h2>
+
+            <h1 class="text-5xl font-black text-white tracking-tighter uppercase">
+                Available
+                <span class="text-amber-500">
+                    Opportunities
+                </span>
+            </h1>
+
+            <p class="text-slate-500 mt-5 text-sm">
+                Explore premium career opportunities across Gujarat
+            </p>
+
         </div>
 
-        <div class="mb-12 flex flex-col md:row justify-center items-center gap-4">
+        <!-- Search -->
+        <form method="GET" class="mb-14 flex justify-center">
+
             <div class="w-full max-w-2xl flex bg-white/5 border border-white/10 rounded-2xl p-2 backdrop-blur-md focus-within:border-amber-500/50 transition-all">
-                <input type="text" placeholder="Search by job title or company..." class="flex-1 bg-transparent px-6 py-3 text-white focus:outline-none font-medium">
-                <button class="bg-amber-500 text-black px-8 py-3 rounded-xl font-black text-[10px] uppercase tracking-widest hover:bg-white transition-all">Search</button>
-            </div>
-        </div>
 
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <input
+                    type="text"
+                    name="search"
+                    placeholder="Search by job title or company..."
+                    value="{{ request.GET.search }}"
+                    class="flex-1 bg-transparent px-6 py-3 text-white focus:outline-none font-medium placeholder:text-slate-500"
+                >
+
+                <button
+                    type="submit"
+                    class="bg-amber-500 text-black px-8 py-3 rounded-xl font-black text-[10px] uppercase tracking-widest hover:bg-white transition-all"
+                >
+                    Search
+                </button>
+
+            </div>
+
+        </form>
+
+        <!-- Job Cards -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+
             {% for job in jobs %}
-            <div class="group p-8 bg-white/5 rounded-[2.5rem] border border-white/5 hover:border-amber-500/50 hover:bg-white/[0.08] transition-all duration-500 relative overflow-hidden">
+
+            <div class="group p-8 bg-white/5 rounded-[2.5rem] border border-white/10 hover:border-amber-500/50 hover:bg-white/[0.08] transition-all duration-500 relative overflow-hidden">
+
+                <!-- Glow -->
                 <div class="absolute -top-10 -right-10 w-24 h-24 bg-amber-600/10 rounded-full blur-3xl group-hover:bg-amber-600/20 transition-all"></div>
-                
+
+                <!-- Top -->
                 <div class="flex items-start justify-between mb-8">
-                    <div class="w-12 h-12 bg-white/5 rounded-xl flex items-center justify-center text-white font-black italic border border-white/10">
+
+                    <div class="w-14 h-14 bg-white/5 rounded-2xl flex items-center justify-center text-white font-black italic border border-white/10 text-lg">
                         {{ job.company_name|slice:":1" }}
                     </div>
+
                     <span class="text-[9px] font-black text-amber-500 uppercase tracking-widest bg-amber-500/10 px-3 py-1 rounded-full border border-amber-500/20">
                         {{ job.job_type }}
                     </span>
+
                 </div>
 
-                <h4 class="text-2xl font-black text-white mb-2 leading-tight uppercase tracking-tightest group-hover:text-amber-400 transition-colors">{{ job.title }}</h4>
-                <p class="text-slate-500 font-bold text-xs uppercase tracking-widest mb-10">{{ job.company_name }}</p>
-                
-                <div class="flex items-center gap-4 text-slate-400 mb-8">
-                    <div class="flex items-center gap-2">
-                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path></svg>
-                        <span class="text-[10px] font-black uppercase tracking-widest">{{ job.location }}</span>
+                <!-- Title -->
+                <h4 class="text-2xl font-black text-white mb-3 leading-tight uppercase tracking-tight group-hover:text-amber-400 transition-colors">
+                    {{ job.title }}
+                </h4>
+
+                <!-- Company -->
+                <p class="text-slate-400 font-bold text-xs uppercase tracking-widest mb-8">
+                    {{ job.company_name }}
+                </p>
+
+                <!-- Details -->
+                <div class="space-y-4 mb-10">
+
+                    <div class="flex items-center gap-3 text-slate-400">
+
+                        <svg class="w-4 h-4 text-amber-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z">
+                            </path>
+                        </svg>
+
+                        <span class="text-[10px] font-black uppercase tracking-widest">
+                            {{ job.location }}
+                        </span>
+
                     </div>
-                    <div class="w-1 h-1 bg-white/20 rounded-full"></div>
-                    <span class="text-[10px] font-black uppercase tracking-widest">{{ job.created_at|timesince }} ago</span>
+
+                    <div class="flex items-center gap-3 text-slate-400">
+
+                        <svg class="w-4 h-4 text-amber-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M12 8c-1.657 0-3 1.343-3 3v6h6v-6c0-1.657-1.343-3-3-3z">
+                            </path>
+                        </svg>
+
+                        <span class="text-[10px] font-black uppercase tracking-widest">
+                            {{ job.salary|default:"Negotiable" }}
+                        </span>
+
+                    </div>
+
+                    <div class="flex items-center gap-3 text-slate-400">
+
+                        <svg class="w-4 h-4 text-amber-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M12 8v4l3 3">
+                            </path>
+                        </svg>
+
+                        <span class="text-[10px] font-black uppercase tracking-widest">
+                            {{ job.created_at|timesince }} ago
+                        </span>
+
+                    </div>
+
                 </div>
 
-                <a href="{% url 'job_detail' job.id %}" class="w-full inline-flex items-center justify-center py-4 rounded-xl bg-white/5 text-white text-[10px] font-black uppercase tracking-widest group-hover:bg-amber-500 group-hover:text-black transition-all">
+                <!-- Button -->
+                <a
+                    href="{% url 'job_detail' job.id %}"
+                    class="w-full inline-flex items-center justify-center py-4 rounded-2xl bg-amber-500 text-black text-[10px] font-black uppercase tracking-widest hover:bg-white transition-all"
+                >
                     View Details
                 </a>
+
             </div>
+
+            {% empty %}
+
+            <div class="col-span-full text-center py-20">
+
+                <h3 class="text-3xl font-black text-white mb-4">
+                    No Jobs Found
+                </h3>
+
+                <p class="text-slate-500">
+                    Try searching with another keyword.
+                </p>
+
+            </div>
+
             {% endfor %}
+
         </div>
+
     </div>
+
 </section>
 
 {% endblock %}

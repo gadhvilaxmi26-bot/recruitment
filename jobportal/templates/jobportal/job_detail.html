@@ -2,56 +2,120 @@
 {% block content %}
 
 <section class="min-h-screen pt-32 pb-20 px-6 bg-[#020617] relative overflow-hidden">
+
+    <!-- Background Glow -->
     <div class="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-amber-600/10 rounded-full blur-[120px] -z-0"></div>
 
     <div class="max-w-4xl mx-auto relative z-10">
+
         <div class="bg-white/5 backdrop-blur-2xl border border-white/10 rounded-[3rem] overflow-hidden shadow-2xl">
-            <div class="p-8 md:p-12 border-b border-white/5 bg-gradient-to-b from-white/[0.02] to-transparent">
+
+            <!-- Top Section -->
+            <div class="p-8 md:p-12 border-b border-white/5 bg-gradient-to-b from-white/[0.03] to-transparent">
+
                 <div class="flex flex-wrap gap-3 mb-6">
-                    <span class="bg-amber-500 text-black px-4 py-1.5 rounded-full text-[9px] font-black uppercase tracking-widest">{{ job.job_type }}</span>
-                    <span class="bg-white/5 text-slate-400 border border-white/10 px-4 py-1.5 rounded-full text-[9px] font-black uppercase tracking-widest">{{ job.location }}</span>
+
+                    <span class="bg-amber-500 text-black px-4 py-1.5 rounded-full text-[9px] font-black uppercase tracking-widest">
+                        {{ job.job_type }}
+                    </span>
+
+                    <span class="bg-white/5 text-slate-400 border border-white/10 px-4 py-1.5 rounded-full text-[9px] font-black uppercase tracking-widest">
+                        {{ job.location }}
+                    </span>
+
                 </div>
-                
-                <h1 class="text-4xl md:text-5xl font-black text-white tracking-tighter uppercase leading-none mb-4">
+
+                <h1 class="text-4xl md:text-5xl font-black text-white tracking-tighter uppercase leading-none mb-5">
                     {{ job.title }}
                 </h1>
-                <p class="text-amber-500 text-sm font-black uppercase tracking-[0.3em] italic">{{ job.company_name }}</p>
+
+                <p class="text-amber-500 text-sm font-black uppercase tracking-[0.3em] italic">
+                    {{ job.company_name }}
+                </p>
+
             </div>
 
+            <!-- Info Cards -->
             <div class="grid grid-cols-1 md:grid-cols-3 bg-white/[0.02]">
+
                 <div class="p-8 text-center border-b md:border-b-0 md:border-r border-white/5">
-                    <p class="text-[9px] text-slate-500 font-black uppercase tracking-[0.3em] mb-2">Required Experience</p>
-                    <p class="text-xl font-black text-white italic uppercase">{{ job.experience }}</p>
+
+                    <p class="text-[9px] text-slate-500 font-black uppercase tracking-[0.3em] mb-2">
+                        Required Experience
+                    </p>
+
+                    <p class="text-xl font-black text-white italic uppercase">
+                        {{ job.experience }}
+                    </p>
+
                 </div>
+
                 <div class="p-8 text-center border-b md:border-b-0 md:border-r border-white/5">
-                    <p class="text-[9px] text-slate-500 font-black uppercase tracking-[0.3em] mb-2">Annual Package</p>
-                    <p class="text-xl font-black text-white italic uppercase">{{ job.salary|default:"Negotiable" }}</p>
+
+                    <p class="text-[9px] text-slate-500 font-black uppercase tracking-[0.3em] mb-2">
+                        Salary Package
+                    </p>
+
+                    <p class="text-xl font-black text-white italic uppercase">
+                        {{ job.salary|default:"Negotiable" }}
+                    </p>
+
                 </div>
+
                 <div class="p-8 text-center">
-                    <p class="text-[9px] text-slate-500 font-black uppercase tracking-[0.3em] mb-2">Posted Date</p>
-                    <p class="text-xl font-black text-white italic uppercase">{{ job.created_at|date:"d M, Y" }}</p>
+
+                    <p class="text-[9px] text-slate-500 font-black uppercase tracking-[0.3em] mb-2">
+                        Posted Date
+                    </p>
+
+                    <p class="text-xl font-black text-white italic uppercase">
+                        {{ job.created_at|date:"d M, Y" }}
+                    </p>
+
                 </div>
+
             </div>
 
+            <!-- Description -->
             <div class="p-8 md:p-14">
+
                 <div class="flex items-center gap-4 mb-8">
+
                     <div class="h-8 w-1.5 bg-amber-500 rounded-full"></div>
-                    <h4 class="text-lg font-black text-white uppercase tracking-widest">Job Description</h4>
+
+                    <h4 class="text-lg font-black text-white uppercase tracking-widest">
+                        Job Description
+                    </h4>
+
                 </div>
 
-                <div class="text-slate-400 leading-relaxed text-sm font-medium whitespace-pre-line bg-white/[0.02] p-8 rounded-[2rem] border border-white/5">
+                <div class="text-slate-300 leading-relaxed text-sm font-medium whitespace-pre-line bg-white/[0.03] p-8 rounded-[2rem] border border-white/5">
                     {{ job.description }}
                 </div>
 
+                <!-- Apply Button -->
                 <div class="mt-14">
-                    <a href="{% url 'apply' job.id %}" class="group relative block w-full bg-amber-500 text-black py-6 rounded-2xl text-center font-black text-xs uppercase tracking-[0.4em] shadow-2xl shadow-amber-900/40 hover:bg-white transition-all transform hover:-translate-y-1">
-                        Start Your Application
-                        <span class="inline-block ml-4 group-hover:translate-x-2 transition-transform">→</span>
+
+                    <a
+                        href="{% url 'apply' job.id %}"
+                        class="group relative block w-full bg-amber-500 text-black py-6 rounded-2xl text-center font-black text-xs uppercase tracking-[0.4em] shadow-2xl shadow-amber-900/40 hover:bg-white transition-all transform hover:-translate-y-1"
+                    >
+                        Apply Now
+
+                        <span class="inline-block ml-4 group-hover:translate-x-2 transition-transform">
+                            →
+                        </span>
+
                     </a>
+
                 </div>
+
             </div>
+
         </div>
+
     </div>
+
 </section>
 
 {% endblock %}

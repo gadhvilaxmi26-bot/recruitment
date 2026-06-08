@@ -1,98 +1,228 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from django.contrib.auth import login, logout, authenticate
-from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
-from django.contrib import messages  # ✅ Import missing for messages
 
-from .models import Job, Application
+from django.contrib.auth import ( authenticate, login, logout)
 
-# 1. Home View
+from django.contrib.auth.models import User
+
+from django.contrib.auth.decorators import login_required
+
+from django.contrib import messages
+
+from .models import Job, Application, HireTalent
+
+
 def home_view(request):
+
     query = request.GET.get('search')
+
     if query:
-        recent_jobs = Job.objects.filter(title__icontains=query).order_by('-created_at')[:6]
+        recent_jobs = Job.objects.filter(
+            title__icontains=query
+        ).order_by('-created_at')[:6]
+
     else:
         recent_jobs = Job.objects.all().order_by('-created_at')[:6]
-    return render(request, 'jobportal/index.html', {'recent_jobs': recent_jobs})
 
-# 2. Jobs List
+    return render(
+        request,
+        'jobportal/index.html',
+        {'recent_jobs': recent_jobs}
+    )
+
+
 def jobs_view(request):
-    all_jobs = Job.objects.all().order_by('-created_at')
-    return render(request, 'jobportal/jobs.html', {'jobs': all_jobs})
+    query = request.GET.get('search')
 
-# 3. Job Detail
+    if query:
+        jobs = Job.objects.filter(
+            title__icontains=query
+        ).order_by('-created_at')
+    else:
+        jobs = Job.objects.all().order_by('-created_at')
+
+    return render(
+        request,
+        'jobportal/jobs.html',
+        {'jobs': jobs}
+    )
+
+
 def job_detail_view(request, job_id):
-    job = get_object_or_404(Job, id=job_id)
-    return render(request, 'jobportal/job_detail.html', {'job': job})
 
-# 4. Apply Job
-def apply_view(request, job_id):
     job = get_object_or_404(Job, id=job_id)
+
+    return render(
+        request,
+        'jobportal/job_detail.html',
+        {'job': job}
+    )
+
+@login_required
+def apply_view(request, job_id):
+
+    job = get_object_or_404(Job, id=job_id)
+
     if request.method == 'POST':
-        full_name = request.POST.get('full_name')
-        email = request.POST.get('email')
-        phone = request.POST.get('phone')
-        qualification = request.POST.get('qualification')
-        resume = request.FILES.get('resume')
 
         Application.objects.create(
+            user=request.user,
             job=job,
-            full_name=full_name,
-            email=email,
-            phone=phone,
-            qualification=qualification,
-            resume=resume
+            full_name=request.POST.get('full_name'),
+            email=request.POST.get('email'),
+            phone=request.POST.get('phone'),
+            qualification=request.POST.get('qualification'),
+            resume=request.FILES.get('resume')
         )
-        return render(request, 'jobportal/success.html')
-    return render(request, 'jobportal/apply.html', {'job': job})
 
-# 5. Dashboard
+        messages.success(
+            request,
+            "Application submitted successfully."
+        )
+
+        return redirect('dashboard')
+
+    return render(
+        request,
+        'jobportal/apply.html',
+        {'job': job}
+    )
+
+    
+@login_required
 def dashboard_view(request):
-    if request.user.is_authenticated:
-        user_applications = Application.objects.filter(email=request.user.email).order_by('-applied_at')
-        return render(request, 'jobportal/dashboard.html', {'applications': user_applications})
-    return redirect('login')
 
-# 6. Authentication
+    applications = Application.objects.filter(
+        user=request.user
+    ).select_related('job').order_by('-applied_at')
+
+    jobs_applied = applications.count()
+
+    recent_applications = applications[:5]
+
+    # Profile completion score (100 per field, max 1000)
+    u = request.user
+    score_fields = [
+        u.username, u.email, u.first_name, u.last_name,
+    ]
+    filled = sum(1 for f in score_fields if f)
+    profile_score = min(jobs_applied * 50 + filled * 100, 1000)
+
+    context = {
+        'applications': applications,
+        'jobs_applied': jobs_applied,
+        'recent_applications': recent_applications,
+        'profile_score': profile_score,
+    }
+
+    return render(request, 'jobportal/dashboard.html', context)
+
+    
+# REGISTER
 def register_view(request):
-    if request.method == 'POST':
-        form = UserCreationForm(request.POST)
-        if form.is_valid():
-            user = form.save()
-            login(request, user)
-            return redirect('home')
-    else:
-        form = UserCreationForm()
-    return render(request, 'jobportal/register.html', {'form': form})
 
+    if request.method == 'POST':
+
+        username = request.POST.get('username')
+        email = request.POST.get('email')
+        password1 = request.POST.get('password1')
+        password2 = request.POST.get('password2')
+
+        if password1 != password2:
+            messages.error(request, "Passwords do not match")
+            return redirect('register')
+
+        if User.objects.filter(username=username).exists():
+            messages.error(request, "Username already exists")
+            return redirect('register')
+
+        user = User.objects.create_user(
+            username=username,
+            email=email,
+            password=password1
+        )
+
+        messages.success(request, "Account created successfully")
+
+        return redirect('login')
+
+    return render(request, 'jobportal/register.html')
+
+
+# LOGIN
 def login_view(request):
-    if request.method == 'POST':
-        form = AuthenticationForm(data=request.POST)
-        if form.is_valid():
-            user = form.get_user()
-            login(request, user)
-            return redirect('home')
-    else:
-        form = AuthenticationForm()
-    return render(request, 'jobportal/login.html', {'form': form})
 
+    if request.method == 'POST':
+
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+
+        user = authenticate(
+            request,
+            username=username,
+            password=password
+        )
+
+        if user is not None:
+
+            login(request, user)
+
+            return redirect('dashboard')
+
+        else:
+
+            messages.error(request, "Invalid username or password")
+
+            return redirect('login')
+
+    return render(request, 'jobportal/login.html')
+
+# LOGOUT
 def logout_view(request):
+
     logout(request)
+
     return redirect('home')
 
-# 7. Static Pages
+
+# ABOUT
 def about_view(request):
-    return render(request, 'jobportal/about.html')
 
+    return render(
+        request,
+        'jobportal/about.html'
+    )
+
+
+# CONTACT
 def contact_view(request):
-    return render(request, 'jobportal/contact.html')
 
+    return render(
+        request,
+        'jobportal/contact.html'
+    )
+
+
+# HIRE TALENT
 def hire_talent(request):
+
     if request.method == 'POST':
-        company_name = request.POST.get('company_name')
-        email = request.POST.get('email')
-        role = request.POST.get('role')
-        
-        messages.success(request, f"Thank you {company_name}! We will contact you regarding the {role} role.")
-        return redirect('home')
-        
-    return render(request, 'jobportal/hire_talent.html')
+
+        HireTalent.objects.create(
+            company_name=request.POST.get('company_name'),
+            industry=request.POST.get('industry'),
+            email=request.POST.get('email'),
+            role=request.POST.get('role'),
+            requirements=request.POST.get('requirements')
+        )
+
+        messages.success(
+            request,
+            "Your hiring requirement has been submitted successfully."
+        )
+
+        return redirect('hire_talent')
+
+    return render(
+        request,
+        'jobportal/hire_talent.html'
+    )

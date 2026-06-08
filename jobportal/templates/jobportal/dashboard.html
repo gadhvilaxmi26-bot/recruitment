@@ -1,98 +1,204 @@
 {% extends 'jobportal/base.html' %}
 {% block content %}
 
-<section class="min-h-screen py-16 px-10 bg-[#FAFBFF] relative overflow-hidden">
-    <div class="absolute top-0 right-0 w-80 h-80 bg-blue-100/40 rounded-full blur-3xl -z-10"></div>
-    
-    <div class="max-w-6xl mx-auto">
-        <div class="flex flex-col md:flex-row justify-between items-end mb-12 gap-6">
-            <div>
-                <h2 class="text-xs font-black uppercase tracking-[0.3em] text-blue-600 mb-2">Candidate Dashboard</h2>
-                <h1 class="text-5xl font-[900] text-slate-900 tracking-tighter">Welcome back, <span class="text-blue-600">{{ user.username }}</span>!</h1>
+<section class="min-h-screen pt-36 pb-16 px-10 bg-[#020617] relative overflow-hidden">
+
+    <div class="absolute top-0 right-0 w-96 h-96 bg-amber-500/10 rounded-full blur-[120px] -z-10"></div>
+    <div class="absolute bottom-0 left-0 w-96 h-96 bg-orange-500/10 rounded-full blur-[120px] -z-10"></div>
+
+    <div class="max-w-7xl mx-auto">
+
+        <!-- Messages -->
+        {% if messages %}
+        <div class="mb-8 space-y-3">
+            {% for message in messages %}
+            <div class="px-6 py-4 rounded-2xl text-sm font-bold
+                {% if message.tags == 'success' %}bg-green-500/10 text-green-400 border border-green-500/20
+                {% elif message.tags == 'error' %}bg-red-500/10 text-red-400 border border-red-500/20
+                {% else %}bg-amber-500/10 text-amber-400 border border-amber-500/20{% endif %}">
+                {{ message }}
             </div>
-            <div class="bg-white p-4 rounded-2xl shadow-sm border border-slate-100 flex items-center gap-4">
-                <div class="w-12 h-12 bg-green-100 text-green-600 rounded-xl flex items-center justify-center font-bold text-xl italic">C</div>
+            {% endfor %}
+        </div>
+        {% endif %}
+
+        <!-- TOP HEADER -->
+        <div class="flex flex-col md:flex-row justify-between items-end mb-12 gap-6">
+
+            <div>
+                <h2 class="text-xs font-black uppercase tracking-[0.3em] text-amber-500 mb-3">
+                    Candidate Dashboard
+                </h2>
+                <h1 class="text-5xl font-black text-white tracking-tighter leading-tight">
+                    Welcome back,
+                    <span class="text-amber-500">{{ user.username }}</span>
+                </h1>
+            </div>
+
+            <div class="bg-white/5 backdrop-blur-2xl border border-white/10 p-5 rounded-3xl flex items-center gap-4 shadow-2xl">
+                <div class="w-14 h-14 bg-amber-500 rounded-2xl flex items-center justify-center text-black font-black text-xl italic shadow-lg">
+                    {{ user.username|first|upper }}
+                </div>
                 <div>
-                    <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest leading-none">Profile Status</p>
-                    <p class="text-sm font-bold text-slate-900">Active & Verified</p>
+                    <p class="text-[10px] font-black text-slate-500 uppercase tracking-widest">Profile Status</p>
+                    <p class="text-sm font-bold text-white">
+                        {% if jobs_applied > 0 %}Active & Applying{% else %}Active{% endif %}
+                    </p>
                 </div>
             </div>
+
         </div>
 
-        <div class="grid grid-cols-1 lg:grid-cols-3 gap-10">
+        <!-- MAIN GRID -->
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+
+            <!-- LEFT SIDE -->
             <div class="lg:col-span-2 grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div class="bg-white p-8 rounded-[2.5rem] shadow-sm border border-slate-100 hover:shadow-xl transition-all group">
-                    <div class="w-14 h-14 bg-blue-50 text-blue-600 rounded-2xl flex items-center justify-center mb-6 group-hover:bg-blue-600 group-hover:text-white transition-colors">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+
+                <!-- CARD 1: Jobs Applied -->
+                <div class="bg-white/5 backdrop-blur-2xl border border-white/10 p-8 rounded-[2.5rem] shadow-2xl hover:-translate-y-1 transition-all">
+                    <div class="w-16 h-16 bg-amber-500/10 text-amber-500 rounded-2xl flex items-center justify-center mb-6">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                  d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2"/>
                         </svg>
                     </div>
-                    <h3 class="text-4xl font-black text-slate-900 tracking-tighter">04</h3>
-                    <p class="text-slate-500 font-bold uppercase tracking-widest text-xs mt-1">Jobs Applied</p>
+                    <h3 class="text-5xl font-black text-white">
+                        {{ jobs_applied }}
+                    </h3>
+                    <p class="text-slate-400 font-bold uppercase tracking-widest text-xs mt-2">Jobs Applied</p>
                 </div>
 
-                <div class="bg-white p-8 rounded-[2.5rem] shadow-sm border border-slate-100 hover:shadow-xl transition-all group">
-                    <div class="w-14 h-14 bg-amber-50 text-amber-600 rounded-2xl flex items-center justify-center mb-6 group-hover:bg-amber-500 group-hover:text-white transition-colors">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                <!-- CARD 2: Total Applications this month -->
+                <div class="bg-white/5 backdrop-blur-2xl border border-white/10 p-8 rounded-[2.5rem] shadow-2xl hover:-translate-y-1 transition-all">
+                    <div class="w-16 h-16 bg-orange-500/10 text-orange-400 rounded-2xl flex items-center justify-center mb-6">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                  d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
                         </svg>
                     </div>
-                    <h3 class="text-4xl font-black text-slate-900 tracking-tighter">02</h3>
-                    <p class="text-slate-500 font-bold uppercase tracking-widest text-xs mt-1">Pending Interviews</p>
+                    <h3 class="text-5xl font-black text-white">
+                        {{ recent_applications.count }}
+                    </h3>
+                    <p class="text-slate-400 font-bold uppercase tracking-widest text-xs mt-2">Recent Applications</p>
                 </div>
-
-                <div class="md:col-span-2 bg-white rounded-[3rem] p-10 border border-slate-100 shadow-sm">
-                    <h3 class="text-xl font-black text-slate-900 mb-8 tracking-tight">Recent Applications</h3>
-                    <div class="space-y-6">
-                        <div class="flex items-center justify-between border-b border-slate-50 pb-6">
-                            <div class="flex items-center gap-4">
-                                <div class="w-12 h-12 bg-slate-900 text-white rounded-xl flex items-center justify-center font-bold text-xs uppercase">VMC</div>
-                                <div>
-                                    <h4 class="font-black text-slate-900">VMC Machine Operator</h4>
-                                    <p class="text-xs font-bold text-slate-400">Jyoti CNC • Applied 2 days ago</p>
-                                </div>
-                            </div>
-                            <span class="bg-blue-50 text-blue-600 px-4 py-1.5 rounded-full text-[10px] font-black uppercase">Under Review</span>
-                        </div>
-                        <div class="flex items-center justify-between">
-                            <div class="flex items-center gap-4">
-                                <div class="w-12 h-12 bg-blue-600 text-white rounded-xl flex items-center justify-center font-bold text-[10px] uppercase tracking-tighter">Soft</div>
-                                <div>
-                                    <h4 class="font-black text-slate-900">Software Developer</h4>
-                                    <p class="text-xs font-bold text-slate-400">Calorine Tech • Applied 5 days ago</p>
-                                </div>
-                            </div>
-                            <span class="bg-green-50 text-green-600 px-4 py-1.5 rounded-full text-[10px] font-black uppercase">Interviewed</span>
-                        </div>
-                    </div>
+                 <div class="bg-white/5 backdrop-blur-2xl border border-white/10 p-8 rounded-[2.5rem] shadow-2xl hover:-translate-y-1 transition-all">
+                    <h3 class="text-5xl font-black text-white">
+                        {{ total_jobs }}
+                    </h3>
+                    <p class="text-slate-400 font-bold uppercase tracking-widest text-xs mt-2">
+                        Total Jobs
+                    </p>
                 </div>
-            </div>
-
-            <div class="space-y-6">
-                <div class="bg-slate-900 text-white p-10 rounded-[3rem] shadow-2xl relative overflow-hidden group">
-                    <div class="relative z-10">
-                        <div class="w-20 h-20 bg-blue-600 rounded-[2rem] flex items-center justify-center text-3xl font-black italic mb-6 shadow-xl shadow-blue-900/50">C</div>
-                        <h4 class="text-2xl font-black tracking-tight mb-2">{{ user.first_name }} {{ user.last_name }}</h4>
-                        <p class="text-slate-400 text-sm font-medium mb-8 leading-relaxed italic border-l-2 border-blue-600 pl-4">Full Stack Developer & Machine Expert</p>
-                        <a href="#" class="inline-block bg-white text-slate-900 px-8 py-3 rounded-2xl font-black text-xs uppercase tracking-widest hover:bg-blue-600 hover:text-white transition-all">Edit Profile</a>
-                    </div>
-                    <div class="absolute -bottom-10 -right-10 w-40 h-40 bg-blue-600/20 rounded-full blur-3xl"></div>
+                <div class="bg-white/5 backdrop-blur-2xl border border-white/10 p-8 rounded-[2.5rem] shadow-2xl hover:-translate-y-1 transition-all">
+                    <h3 class="text-5xl font-black text-white">
+                        {{ total_hire_requests }}
+                    </h3>
+                    <p class="text-slate-400 font-bold uppercase tracking-widest text-xs mt-2">
+                        Hire Requests
+                    </p>
                 </div>
                 
-                <div class="bg-blue-600 text-white p-8 rounded-[2.5rem] shadow-xl shadow-blue-100 flex items-center justify-between group cursor-pointer overflow-hidden relative">
-                   <div class="relative z-10">
-                       <p class="text-[10px] font-black text-blue-200 uppercase tracking-widest mb-1">Current Score</p>
-                       <h4 class="text-3xl font-black">850 <span class="text-sm text-blue-200 font-bold">/ 1000</span></h4>
-                   </div>
-                   <div class="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center relative z-10">
-                       <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
-                       </svg>
-                   </div>
+                <!-- RECENT APPLICATIONS -->
+                <div class="md:col-span-2 bg-white/5 backdrop-blur-2xl border border-white/10 rounded-[3rem] p-10 shadow-2xl">
+
+                    <h3 class="text-2xl font-black text-white mb-8 tracking-tight">
+                        Recent Applications
+                    </h3>
+
+                    {% if recent_applications %}
+                    <div class="space-y-6">
+                        {% for app in recent_applications %}
+                        <div class="flex items-center justify-between {% if not forloop.last %}border-b border-white/5 pb-6{% endif %}">
+
+                            <div class="flex items-center gap-4">
+                                <!-- Company initials dynamically generated -->
+                                <div class="w-14 h-14 bg-amber-500 text-black rounded-2xl flex items-center justify-center font-black text-xs uppercase shadow-lg">
+                                    {{ app.job.company_name|slice:":3"|upper }}
+                                </div>
+                                <div>
+                                    <h4 class="font-black text-white">{{ app.job.title }}</h4>
+                                    <p class="text-xs font-bold text-slate-500">
+                                        {{ app.job.company_name }} &bull; Applied {{ app.applied_at|timesince }} ago
+                                    </p>
+                                </div>
+                            </div>
+
+                            <span class="bg-amber-500/10 text-amber-400 px-5 py-2 rounded-full text-[10px] font-black uppercase tracking-widest">
+                                Applied
+                            </span>
+
+                        </div>
+                        {% endfor %}
+                    </div>
+
+                    {% else %}
+                    <div class="text-center py-12">
+                        <p class="text-slate-500 font-bold mb-4">No applications yet.</p>
+                        <a href="{% url 'jobs' %}"
+                           class="inline-block bg-amber-500 text-black px-8 py-3 rounded-2xl font-black text-xs uppercase tracking-widest hover:bg-white transition-all">
+                            Browse Jobs
+                        </a>
+                    </div>
+                    {% endif %}
+
                 </div>
+
             </div>
+
+            <!-- RIGHT SIDE -->
+            <div class="space-y-6">
+
+                <!-- PROFILE CARD -->
+                <div class="bg-white/5 backdrop-blur-2xl border border-white/10 text-white p-10 rounded-[3rem] shadow-2xl relative overflow-hidden">
+                    <div class="relative z-10">
+
+                        <!-- Avatar: first letter of username -->
+                        <div class="w-24 h-24 bg-amber-500 rounded-[2rem] flex items-center justify-center text-4xl font-black text-black italic mb-8 shadow-2xl">
+                            {{ user.username|first|upper }}
+                        </div>
+
+                       <h4 class="text-3xl font-black tracking-tight mb-3">
+                        {% if user.first_name %}
+                            {{ user.first_name }} {{ user.last_name }}
+                        {% else %}
+                            {{ user.username }}
+                        {% endif %}
+                    </h4>
+                            
+
+                        <p class="text-slate-400 text-sm leading-relaxed border-l-2 border-amber-500 pl-4 mb-8 italic">
+                            {% if user.email %}{{ user.email }}{% else %}No email set{% endif %}
+                        </p>
+
+                        
+                    </div>
+                    <div class="absolute -bottom-10 -right-10 w-52 h-52 bg-amber-500/10 rounded-full blur-3xl"></div>
+                </div>
+
+                <!-- SCORE CARD -->
+                <div class="bg-gradient-to-r from-amber-500 to-orange-500 text-black p-8 rounded-[2.5rem] shadow-2xl flex items-center justify-between overflow-hidden relative">
+                    <div class="relative z-10">
+                        <p class="text-[10px] font-black uppercase tracking-widest opacity-70 mb-2">Profile Score</p>
+                        <h4 class="text-4xl font-black">
+                            {{ profile_score }}
+                            <span class="text-lg font-bold">/ 1000</span>
+                        </h4>
+                    </div>
+                    <div class="w-14 h-14 bg-black/10 rounded-full flex items-center justify-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3"
+                                  d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"/>
+                        </svg>
+                    </div>
+                </div>
+
+            </div>
+
         </div>
+
     </div>
+
 </section>
 
 {% endblock %}
