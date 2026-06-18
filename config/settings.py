@@ -27,6 +27,11 @@ SECRET_KEY = 'django-insecure-c$l&c_u0%@9&1#r_nxk^*o2m9d^(f7jriwwa^&3r4757cy_7#l
 DEBUG = True
 
 ALLOWED_HOSTS = ['*']
+CSRF_TRUSTED_ORIGINS = [
+    'https://recruitment-production-a13c.up.railway.app',
+    'https://calorineenterprise.com',
+    'https://www.calorineenterprise.com',
+]
 
 
 # Application definition
