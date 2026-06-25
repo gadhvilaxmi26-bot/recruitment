@@ -1,13 +1,16 @@
 from django.contrib import admin
 from django.urls import path, include
-from django.conf import settings # Naya add karein
-from django.conf.urls.static import static # Naya add karein
+from django.conf import settings 
+from django.conf.urls.static import static 
+from django.contrib.sitemaps.views import sitemap
+from django.contrib.sitemaps import GenericSitemap
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('jobportal.urls')),
+    path('sitemap.xml',sitemap,{'sitemaps':{}}, name='sitemap'),
 ]
 
-# Yeh line add karni hai taaki media files (resumes) access ho sakein
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
