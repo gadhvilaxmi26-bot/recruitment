@@ -6,12 +6,15 @@ from django.contrib.sitemaps.views import sitemap
 from django.contrib.sitemaps import GenericSitemap
 from jobportal.sitemaps import StaticViewSitemap
 
+sitemaps = {
+    'static': StaticViewSitemap,
+}
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('jobportal.urls')),
-    path('sitemap.xml',sitemap,{'sitemaps':{StaticViewSitemap}}, name='sitemap'),
-]
+    path('sitemap.xml', sitemap, {'sitemaps': sitemaps}, name='sitemap'),
+ ]
 
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
