@@ -57,36 +57,26 @@ def job_detail_view(request, job_id):
         {'job': job}
     )
 
-@login_required
 def apply_view(request, job_id):
-
     job = get_object_or_404(Job, id=job_id)
-
     if request.method == 'POST':
-
         Application.objects.create(
-            user=request.user,
+            user=request.user if request.user.is_authenticated else None,
             job=job,
             full_name=request.POST.get('full_name'),
             email=request.POST.get('email'),
             phone=request.POST.get('phone'),
             qualification=request.POST.get('qualification'),
+            dob=request.POST.get('dob'),
+            education=request.POST.get('education'),
+            willing_to_relocate=request.POST.get('willing_to_relocate') == 'yes',
             resume=request.FILES.get('resume')
         )
+        messages.success(request, "Application submitted successfully.")
+        return redirect('home')
+    return render(request, 'jobportal/apply.html', {'job': job})
 
-        messages.success(
-            request,
-            "Application submitted successfully."
-        )
-
-        return redirect('dashboard')
-
-    return render(
-        request,
-        'jobportal/apply.html',
-        {'job': job}
-    )
-
+   
     
 @login_required
 def dashboard_view(request):
@@ -99,24 +89,24 @@ def dashboard_view(request):
 
     recent_applications = applications[:5]
 
-    # Profile completion score (100 per field, max 1000)
-    u = request.user
-    score_fields = [
-        u.username, u.email, u.first_name, u.last_name,
-    ]
-    filled = sum(1 for f in score_fields if f)
-    profile_score = min(jobs_applied * 50 + filled * 100, 1000)
+    total_jobs = Job.objects.count()
+
+    total_hire_requests = HireTalent.objects.count()
 
     context = {
         'applications': applications,
         'jobs_applied': jobs_applied,
         'recent_applications': recent_applications,
-        'profile_score': profile_score,
+        'total_jobs': total_jobs,
+        'total_hire_requests': total_hire_requests,
     }
 
-    return render(request, 'jobportal/dashboard.html', context)
+    return render(
+        request,
+        'jobportal/dashboard.html',
+        context
+    )
 
-    
 # REGISTER
 def register_view(request):
 

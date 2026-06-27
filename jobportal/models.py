@@ -47,6 +47,8 @@ class Application(models.Model):
     full_name = models.CharField(max_length=200)
     email = models.EmailField()
     phone = models.CharField(max_length=15)
+    dob = models.DateField(null=True, blank=True)
+    willing_to_relocate = models.BooleanField(default=False)
     qualification = models.CharField(max_length=200)
 
     resume = models.FileField(
