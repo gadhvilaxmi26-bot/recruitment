@@ -66,17 +66,14 @@ def apply_view(request, job_id):
             full_name=request.POST.get('full_name'),
             email=request.POST.get('email'),
             phone=request.POST.get('phone'),
-            qualification=request.POST.get('qualification'),
             dob=request.POST.get('dob'),
-            education=request.POST.get('education'),
             willing_to_relocate=request.POST.get('willing_to_relocate') == 'yes',
+            qualification=request.POST.get('qualification'),
             resume=request.FILES.get('resume')
         )
         messages.success(request, "Application submitted successfully.")
         return redirect('home')
     return render(request, 'jobportal/apply.html', {'job': job})
-
-   
     
 @login_required
 def dashboard_view(request):

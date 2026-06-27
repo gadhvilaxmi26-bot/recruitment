@@ -107,8 +107,39 @@
                     >
 
                 </div>
+                                            
+                                    <!-- DOB + Relocate -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
 
-                <div class="space-y-2">
+                        <div class="space-y-2">
+                            <label class="text-[10px] font-black text-slate-500 uppercase tracking-widest ml-2">
+                                Date of Birth
+                            </label>
+                            <input
+                                type="date"
+                                name="dob"
+                                required
+                                class="w-full bg-white/5 border border-white/10 rounded-2xl px-6 py-4 text-white focus:outline-none focus:border-amber-500/50 transition-all font-medium"
+                            >
+                        </div>
+
+                        <div class="space-y-2">
+                            <label class="text-[10px] font-black text-slate-500 uppercase tracking-widest ml-2">
+                                Willing to Relocate to Mundra, Gujarat?
+                            </label>
+                            <select
+                                name="willing_to_relocate"
+                                required
+                                class="w-full bg-[#020617] border border-white/10 rounded-2xl px-6 py-4 text-white focus:outline-none focus:border-amber-500/50 transition-all font-medium"
+                            >
+                                <option value="">Select</option>
+                                <option value="yes">Yes</option>
+                                <option value="no">No</option>
+                            </select>
+                        </div>
+
+                    </div>
+                                    <div class="space-y-2">
 
                     <label class="text-[10px] font-black text-slate-500 uppercase tracking-widest ml-2">
                         Highest Qualification
